@@ -1,0 +1,36 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-2">
+  <div class="row">
+    <h1 class="col-12 text-center mb-2">Login on Wonderlust</h1>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <div class="form-wrapper">
+      <form action="/login" method="POST" class="needs-validation" novalidate>
+        <!-- Username -->
+        <div class="mb-1">
+          <label for="username" class="form-label">Username</label>
+          <input type="text" class="form-control input-small" id="username" name="username" required>
+          
+        </div>
+
+        <!-- Password -->
+        <div class="mb-1">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control input-small" id="password" name="password" required>
+          
+        </div>
+        <br>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Login</button>
+      </form>
+    </div>
+  </div>
+  </div>
+</div>
+<style>
+   .form-wrapper {
+    padding-bottom: 20px; /* Space for footer gap */
+  }
+</style>

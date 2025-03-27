@@ -86,7 +86,7 @@ const store =  MongoStore.create({
   },
   touchAfter:24*3600,
 }) 
-store.on("error", () =>{
+store.on("error", (err) =>{
   console.log("ERROR in MONGO SESSION STORE",err);
 })
 
@@ -181,9 +181,10 @@ app.all("*", (req,res,next)=>{
 
 app.use((err, req,res,next) =>{
   let{statusCode = 500, message="something went wrong"} = err;
-  res.status(statusCode).render("error.ejs", {message});
+  res.status(statusCode).render("listings/error.ejs", {message});
   //res.status(statusCode).send(message);
 })
 app.listen(port, () =>{
   console.log(`app is listining at port ${port}`);
 })
+

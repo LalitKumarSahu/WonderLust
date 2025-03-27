@@ -1,93 +1,111 @@
 <% layout("/layouts/boilerplate") %>
- <style>
-  #filters {
+<style>
+  #filter-container {
+  position: relative;
   display: flex;
-  flex-wrap: nowrap; /* Sab kuch ek line mein rakhne ke liye */
-  align-items: center; /* Vertically align karega sabko */
-  gap: 1rem; /* Items ke beech mein space dene ke liye */
-}
-  .filter{
-  text-align: center;
-  margin-right: 0.5rem;
-  margin-top: 0.5rem;
-  opacity: 0.7;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  gap: 1rem; /* Yeh ensure karega ki elements properly spaced rahein */
+  flex-wrap: nowrap;
 }
-.filter:hover{
-  opacity: 1;
-  cursor: pointer;
-} 
 
-.filter p{
-  font-size: 0.8rem;
-} 
+#filters-wrapper {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  overflow: hidden;
+}
 
-.tax-info{
-   display: none;
+#filters {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0 40px;
+  flex-grow: 1; /* Filters maximum width le sake */
+}
+
+#filters::-webkit-scrollbar {
+  display: none;
+}
+
+.filter {
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 80px;
 }
 .tax-toggle {
   border: 1px solid black;
   border-radius: 1rem;
-  height:3rem;
-  padding:1rem;
-  background-color:aliceblue;
+  height: 2rem;
+  padding: 0.5rem 1rem;
+  background-color: aliceblue;
   display: flex;
   align-items: center;
-  text-align: center;
- 
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto; /* ✅ Yeh tax-toggle ko right side shift karega */
+  position: relative;
+  z-index: 10; /* ✅ Ensure karega ki yeh navigation button ke neeche na aaye */
 }
- </style>
 
-<div id="filters">
-  <div class="filter">
-    <div><i class="fa-solid fa-fire"></i></div>
-     <p>Trending</p>
+/* ✅ Navigation Buttons Fix */
+.nav-btn {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 20; /* ✅ Navigation buttons sabse upar rahenge */
+}
+.nav-btn.left {
+  left: 5px;
+}
+
+.nav-btn.right {
+  right: 50px; /* Tax-toggle ke overlap ko avoid karne ke liye */
+}
+
+</style>
+<div id="filter-container">
+  <button class="nav-btn left"><i class="fa-solid fa-chevron-left"></i></button>
+
+  <div id="filters">
+    <div class="filter"><i class="fa-solid fa-fire"></i><p>Trending</p></div>
+    <div class="filter"><i class="fa-solid fa-bed"></i><p>Rooms</p></div>
+    <div class="filter"><i class="fa-solid fa-mountain-city"></i><p>Cities</p></div>
+    <div class="filter"><i class="fa-solid fa-mountain"></i><p>Mountains</p></div>
+    <div class="filter"><i class="fa-solid fa-fort-awesome"></i><p>Castles</p></div>
+    <div class="filter"><i class="fa-solid fa-person-swimming"></i><p>Pools</p></div>
+    <div class="filter"><i class="fa-solid fa-campground"></i><p>Camping</p></div>
+    <div class="filter"><i class="fa-solid fa-cow"></i><p>Farms</p></div>
+    <div class="filter"><i class="fa-solid fa-snowflake"></i><p>Arctic</p></div>
   </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-bed"></i></div>
-     <p>Rooms</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain-city"></i></div>
-     <p>Cities</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain"></i></div>
-     <p>Mountains</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-fort-awesome"></i></div>
-     <p>Castles</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-person-swimming"></i></div>
-     <p>Pools</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-campground"></i></div>
-     <p>Camping</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-cow"></i></div>
-     <p>Farms</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-snowflake"></i></div>
-     <p>Arctic</p>
-  </div>
-  <div class="tax-toggle ">
+
+
+
+  <button class="nav-btn right"><i class="fa-solid fa-chevron-right"></i></button>
+  <div class="tax-toggle">
     <div class="form-check-reverse form-switch">
       <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-      <label class="form-check-label" for="flexSwitchCheckDefault">taxes</label>
+      <label class="form-check-label" for="flexSwitchCheckDefault">Taxes</label>
     </div>
   </div>
 </div>
+
+
 
   <!-- <form method="GET" action="/listings/new">
     <button>Create New Listing</button>
   </form> -->
 
-  <div class="row row-cols-md-3 row-cols-sm-1 mt-1">
+  <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-1">
     <% for(let listing of allListings) { %>
       <a href="/listings/<%= listing.id %>"class="listing-link">
 
@@ -114,7 +132,7 @@
   </ul> -->
 
   <script>
-    let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+      let taxSwitch = document.getElementById("flexSwitchCheckDefault");
     taxSwitch.addEventListener("click", ()=>{
     let taxInfo = document.getElementsByClassName("tax-info");
     for(info of taxInfo){
@@ -126,6 +144,21 @@
      
     }
     })
+    document.addEventListener("DOMContentLoaded", function () {
+  const filters = document.getElementById("filters");
+  const leftBtn = document.querySelector(".nav-btn.left");
+  const rightBtn = document.querySelector(".nav-btn.right");
+
+  leftBtn.addEventListener("click", function () {
+    filters.scrollBy({ left: -150, behavior: "smooth" });
+  });
+
+  rightBtn.addEventListener("click", function () {
+    filters.scrollBy({ left: 150, behavior: "smooth" });
+  });
+});
+
+  
   </script>
 
 

@@ -71,6 +71,48 @@
 .nav-btn.right {
   right: 50px; /* Tax-toggle ke overlap ko avoid karne ke liye */
 }
+/* Large screen (desktop) par nav-btn hide */
+@media (min-width: 992px) {
+  .nav-btn {
+    display: none !important;
+  }
+}
+
+/* Small/Medium screens par visible */
+@media (max-width: 991px) {
+  .nav-btn {
+    display: block;
+  }
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* semi-transparent background */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+#modal-close {
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 
 </style>
 <div id="filter-container">
@@ -105,7 +147,7 @@
     <button>Create New Listing</button>
   </form> -->
 
-  <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-1">
+  <!-- <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-1">
     <% for(let listing of allListings) { %>
       <a href="/listings/<%= listing.id %>"class="listing-link">
 
@@ -123,13 +165,48 @@
       </a>
     
     <% } %>
-  </div>
+  </div> -->
+  <!-- chatgpt -->
+   <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-1">
+  <% if(allListings.length === 0) { %>
+    <div class="col-12 text-center mt-5">
+      <h4>No results found for "<%= query %>"</h4>
+      <a href="/listings" class="btn btn-outline-dark mt-3">Back to all listings</a>
+    </div>
+  <% } else { %>
+    <% for(let listing of allListings) { %>
+      <a href="/listings/<%= listing.id %>" class="listing-link">
+        <div class="card col listing-card">
+          <img src="<%= listing.image.url %>" alt="listing_img" class="card-img-top" style="height:15rem;">
+          <div class="card-img-overlay"></div>
+          <div class="card-body">
+            <p class="card-text">
+              <b><%= listing.title %> </b><br>
+              &#8377;<%= listing.price.toLocaleString("en-IN") %> / night
+              <i class="tax-info">&nbsp;&nbsp; +18% GST</i>
+            </p>
+          </div>
+        </div>
+      </a>
+    <% } %>
+  <% } %>
+</div>
+
+   <!--  -->
 
   <!-- <ul>
     <% for(let listing of allListings) { %>
       <li><a href="/listings/<%= listing.id %>"><%= listing.title %></a></li>
     <% } %>
   </ul> -->
+
+  <!-- Modal HTML -->
+<div id="filter-info-modal" class="modal">
+  <div class="modal-content">
+    <span id="modal-close">&times;</span>
+    <p id="modal-text"></p>
+  </div>
+</div>
 
   <script>
       let taxSwitch = document.getElementById("flexSwitchCheckDefault");
@@ -157,6 +234,66 @@
     filters.scrollBy({ left: 150, behavior: "smooth" });
   });
 });
+// Select all filter elements
+const filterItems = document.querySelectorAll(".filter");
+const modal = document.getElementById("filter-info-modal");
+const modalText = document.getElementById("modal-text");
+const modalClose = document.getElementById("modal-close");
+
+// Add click event on each filter
+filterItems.forEach(item => {
+  item.addEventListener("click", () => {
+    const title = item.querySelector("p").textContent;
+    // Custom content based on filter
+    let content = "";
+    switch(title) {
+      case "Trending":
+        content = "Check out the most popular listings currently!";
+        break;
+      case "Rooms":
+        content = "Explore different types of rooms available.";
+        break;
+      case "Cities":
+        content = "Find listings in top cities around the world.";
+        break;
+      case "Mountains":
+        content = "Discover listings near beautiful mountains.";
+        break;
+      case "Castles":
+        content = "Stay like royalty in amazing castles.";
+        break;
+      case "Pools":
+        content = "Listings with swimming pools for relaxation.";
+        break;
+      case "Camping":
+        content = "Enjoy nature with camping spots.";
+        break;
+      case "Farms":
+        content = "Experience farm stays and rural life.";
+        break;
+      case "Arctic":
+        content = "Unique listings in snowy and Arctic regions.";
+        break;
+      default:
+        content = "More info coming soon!";
+    }
+
+    modalText.textContent = content;
+    modal.style.display = "block";
+  });
+});
+
+// Close modal
+modalClose.addEventListener("click", () => {
+  modal.style.display = "none";
+});
+
+// Click outside modal to close
+window.addEventListener("click", (e) => {
+  if (e.target == modal) {
+    modal.style.display = "none";
+  }
+}); 
 
   
   </script>

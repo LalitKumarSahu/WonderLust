@@ -7,7 +7,7 @@ const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
 
 //------controllers lo require-------->
-const userController = require("../controllers/user.js");
+const userController = require("../controllers/user");
 
 //-----------router.rote--------------->
 router.route("/signup")
@@ -32,5 +32,18 @@ router.route("/login")
 
 //-------logout------------>
 router.get("/logout", userController.logout)
+
+// profile route
+// router.get("/:id/profile", userController.renderProfile);
+router.get("/:id/profile", async (req, res) => {
+  const user = await User.findById(req.params.id);
+  res.render("users/profile", { user });
+});
+
+// edit form
+router.get("/:id/edit", userController.renderEditForm);
+
+// update profile
+router.put("/:id", userController.updateProfile);
 
 module.exports = router;

@@ -1,0 +1,32 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container py-5">
+  <h2>Edit Profile</h2>
+
+  <!-- Form -->
+  <form action="/users/<%= user._id %>?_method=PUT" method="POST">
+    
+    <!-- Username -->
+    <div class="mb-3">
+      <label class="form-label">Username</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        name="username" 
+        value="<%= user.username %>" 
+        required>
+    </div>
+
+    <!-- About Me -->
+    <div class="mb-3">
+      <label class="form-label">About Me</label>
+      <textarea 
+        class="form-control" 
+        name="about" 
+        rows="3"><%= user.about || "" %></textarea>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-danger">Save Changes</button>
+  </form>
+</div>

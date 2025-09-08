@@ -1,103 +1,174 @@
 <style>
-  .search-btn{
-   background-color: #fe424d;
-   color: #fff;
-   border-radius: 25px;
- }
-  .search-btn:hover{
-   background-color: #fe424d;
-   color: #fff;
- }
-  .search-btn i{
-   display: inline;
-   margin-right: 0.5rem;
- }
- .search-inp{
-   border-radius: 25px;
- }
+  .search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 50px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 5px 10px;
+}
+/* Mobile adjust */
+@media (max-width: 768px) {
+  .search-bar {
+    width: 90%;
+    margin: 10px auto;
+  }
+}
+  /* Search Button */
+  .search-btn {
+  background: #fe424d;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+  .search-btn:hover {
+    background-color: #fe424d;
+    color: #fff;
+  }
+  .search-btn i {
+    margin-right: 0.5rem;
+  }
+  .search-inp {
+   border: none;
+  outline: none;
+  flex: 1;
+  border-radius: 50px;
+  padding: 8px 15px;
+  font-size: 14px;
+  }
 
- /* Responsive Navbar Fix */
- @media (max-width: 768px) {
-   .navbar-collapse {
-     text-align: center;
-     background: #fff;
-     padding: 10px 0;
-   }
+  /* Navbar Fix */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-   .navbar-nav {
-     width: 100%;
-   }
+  .navbar-brand {
+    order: 1; /* Logo left */
+    display: flex;
+    align-items: center;
+  }
 
-   .navbar-nav a {
-     padding: 10px 15px;
-     width: 100%;
-   }
+  .navbar-toggler {
+    order: 2; /* Hamburger right */
+    margin-left: auto !important;
+  }
 
-   .d-flex {
-     flex-direction: column;
-     width: 100%;
-     align-items: center;
-   }
+  .navbar-collapse {
+    order: 3; /* Collapse content center */
+  }
 
-   .search-inp {
-     width: 90%;
-     margin-bottom: 0.5rem;
-   }
-
-   .search-btn {
-     width: 90%;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-   }
-
-   .navbar-toggler {
-     border: none;
-     outline: none;
-   }
-
-   .navbar-toggler:focus {
-     box-shadow: none;
-   }
- }
+  @media (max-width: 768px) {
+    .navbar-collapse {
+      text-align: center;
+      background: #fff;
+      padding: 10px 0;
+    }
+    .mobile-search {
+      margin: 10px auto;
+      width: 90%;
+    }
+  }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
-    
-    <!-- UPDATED TOGGLER BUTTON -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" 
-      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+
+    <!-- Left: Logo -->
+    <a class="navbar-brand d-flex align-items-center" href="/listings">
+      <i class="fa-regular fa-compass fs-4 text-danger"></i>
+      <span class="ms-2 fw-bold text-danger">Wanderlust</span>
+    </a>
+
+    <!-- Hamburger (always right in top row) -->
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <i class="fa-solid fa-bars fs-4"></i>
     </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
-      </div>
 
-      <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
-          <input class="search-inp form-control me-2" type="search" placeholder="Search" aria-label="Search destinations">
-          <button class="btn search-btn" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>Search
-          </button>
-        </form>
-      </div>
+    <!-- Collapse Content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
 
-      <div class="navbar-nav ms-auto">
+      <!-- Desktop Search -->
+      <form class=" search-bar d-none d-md-flex mx-auto" role="search" action="/listings" method="GET">
+        <input class="form-control rounded-pill px-3"
+               type="search"
+               name="q"
+               placeholder="Search destinations"
+               aria-label="Search"
+               style="max-width: 400px;">
+        <button class="btn btn-danger rounded-pill ms-2 px-4" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <!-- Mobile Search -->
+      <form class="d-flex d-md-none mobile-search" role="search" action="/listings" method="GET">
+        <input class="form-control rounded-pill px-3"
+               type="search"
+               name="q"
+               placeholder="Search destinations"
+               aria-label="Search">
+        <button class="btn btn-danger rounded-pill ms-2" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <!-- Right: Profile / Auth -->
+      <ul class="navbar-nav ms-auto align-items-center gap-3">
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
         <% if (!currUser) { %>
-          <a class="nav-link" href="/signup"><b>Sign up</b></a>
-          <a class="nav-link" href="/login"><b>Log in</b></a>
+          <li class="nav-item"><a class="nav-link" href="/users/signup"><b>Sign up</b></a></li>
+          <li class="nav-item"><a class="nav-link" href="/users/login"><b>Log in</b></a></li>
+        <% } if (currUser){ %>
+          <li class="nav-item dropdown">
+            <a class="d-flex align-items-center text-decoration-none dropdown-toggle"
+               href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              <img src="https://i.pravatar.cc/40?u=<%= currUser._id %>"
+                   alt="profile"
+                   class="rounded-circle me-2"
+                   width="35" height="35">
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profileDropdown">
+              <li><a class="dropdown-item" href="/wishlists">Wishlists</a></li>
+              <li><a class="dropdown-item" href="/trips">Trips</a></li>
+              <li><a class="dropdown-item" href="/messages">Messages</a></li>
+              <li><a class="dropdown-item" href="/users/<%= currUser._id %>/profile">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/settings">Account settings</a></li>
+              <li><a class="dropdown-item" href="/help">Help Centre</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="/users/logout">Log out</a></li>
+            </ul>
+          </li>
         <% } %>
-        <% if (currUser) { %>
-          <a class="nav-link" href="/logout"><b>Log out</b></a>
-        <% } %>
-      </div>
+      </ul>
     </div>
   </div>
 </nav>
 
-
+<script>
+ // Toggle dropdown menu
+ const menuToggle = document.getElementById("menuToggle");
+ const menuDropdown = document.getElementById("menuDropdown");
+ if (menuToggle) {
+   menuToggle.addEventListener("click", () => {
+     menuDropdown.style.display = menuDropdown.style.display === "block" ? "none" : "block";
+   });
+   // Close if clicked outside 
+   window.addEventListener("click", (e) => {
+     if (!menuToggle.contains(e.target) && !menuDropdown.contains(e.target)) {
+       menuDropdown.style.display = "none";
+     }
+   });
+ }
+</script>

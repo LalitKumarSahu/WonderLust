@@ -1,87 +1,187 @@
-body{
- display: flex;
- flex-direction: column;
- min-height: 100vh;
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-.container{
+
+.container {
   flex: 1;
 }
- .navbar {
-  height: 3rem;
-  background-color: white;
 
+/* =============================
+   🌟 FIXED NAVBAR
+   ============================= */
+.navbar {
+  background-color: #fff !important;
+  border-bottom: 1px solid #eee;
+  padding: 0.6rem 2rem;
+  font-family: "Arial", sans-serif;
+  display: flex;
+  align-items: center;
 }
+
+/* Container fix */
+.navbar .container-fluid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Brand / Logo */
+.navbar-brand {
+  order: 1;
+  display: flex;
+  align-items: center;
+}
+.navbar-brand span {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ff385c !important;
+}
+.navbar-brand i {
+  color: #ff385c !important;
+}
+
+/* Hamburger (always right top) */
+.navbar-toggler {
+  order: 2;
+  margin-left: auto !important;
+  border: none;
+  outline: none;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+/* Collapse Content */
+.navbar-collapse {
+  order: 3;
+}
+
+/* Search Bar */
+.navbar form input.form-control {
+  border-radius: 25px !important;
+  border: 1px solid #ddd;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  box-shadow: none !important;
+  transition: all 0.2s ease-in-out;
+}
+.navbar form input.form-control:focus {
+  border-color: #ff385c;
+  box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.2);
+}
+.navbar form button {
+  border-radius: 50% !important;
+  background-color: #ff385c !important;
+  border: none;
+  padding: 0.6rem 0.8rem;
+}
+.navbar form button:hover {
+  background-color: #e03150 !important;
+}
+
+/* Right side links */
+.navbar-nav .nav-link {
+  font-size: 0.95rem;
+  color: #333 !important;
+  font-weight: 500;
+}
+.navbar-nav .nav-link:hover {
+  color: #ff385c !important;
+}
+
+/* Avatar */
+.navbar .rounded-circle {
+  border: 2px solid #eee;
+  transition: all 0.2s ease;
+}
+.navbar .rounded-circle:hover {
+  border-color: #ff385c;
+}
+
+/* Dropdown */
+.dropdown-menu-custom {
+  border-radius: 12px;
+  width: 260px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+}
+.dropdown-menu-custom a {
+  font-size: 15px;
+  color: #333;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 500;
+  display: block;
+}
+.dropdown-menu-custom a:hover {
+  background: #f7f7f7;
+}
+.dropdown-menu-custom hr {
+  margin: 8px 0;
+}
+
+/* =============================
+   🌟 RESPONSIVE FIX
+   ============================= */
 @media (max-width: 768px) {
   .navbar-collapse {
     text-align: center;
     background: #fff;
     padding: 10px 0;
   }
-
   .navbar-nav {
     width: 100%;
   }
-
   .navbar-nav a {
     padding: 10px 15px;
     width: 100%;
   }
-
-  .d-flex {
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-  }
-
   .search-inp {
     width: 90%;
     margin-bottom: 0.5rem;
   }
-
   .search-btn {
     width: 90%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
-
-  .navbar-toggler {
-    border: none;
-    outline: none;
-  }
-
-  .navbar-toggler:focus {
-    box-shadow: none;
-  }
 }
 
-.fa-compass{
+/* =============================
+   🌟 OTHER COMPONENTS
+   ============================= */
+.fa-compass {
   color: #fe424d;
   font-size: 1.5rem;
 }
-.nav-link{
+.nav-link {
   color: #222222 !important;
 }
-.f-info-links a{
+
+.f-info-links a {
   text-decoration: none;
   color: #222222;
 }
-.f-info-links a:hover{
+.f-info-links a:hover {
   text-decoration: underline;
- 
 }
-.f-info-links,.f-info-brands,.f-info-socials{
+.f-info-links,
+.f-info-brands,
+.f-info-socials {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
-.f-info-socials i{
+.f-info-socials i {
   font-size: 1.2rem;
   margin-right: 2rem;
 }
-.f-info{
+.f-info {
   height: 8rem;
   background-color: #ebebeb;
   display: flex;
@@ -90,53 +190,82 @@ body{
   align-items: space-evenly;
   text-align: center;
 }
-.listing-card{
+
+/* Cards */
+.listing-card {
   border: none !important;
   margin-bottom: 1.5rem;
 }
-.card-img-top{
+.card-img-top {
   border-radius: 1rem !important;
   width: 100% !important;
   object-fit: cover !important;
 }
-.card-body{
+.card-body {
   padding: 0 !important;
 }
-.card-body li{
+.card-body li {
   list-style: none !important;
 }
-.card-text{
+.card-text {
   font-weight: 400 !important;
 }
-.listing-link{
+.listing-link {
   text-decoration: none;
 }
-/* card effect */
-.card-img-overlay{
+.card-img-overlay {
   opacity: 0;
 }
-.card-img-overlay:hover{
+.card-img-overlay:hover {
   opacity: 0.2;
   background-color: white;
 }
-/* New Page */
-.add-btn{
+
+/* Buttons */
+.add-btn,
+.edit-btn {
   background-color: #fe424d !important;
   border: none !important;
 }
-/* Edit page */
-.edit-btn{
-  background-color: #fe424d !important;
-  border: none !important;
-}
-/* show page */
-.show-img{
+
+/* Show Page */
+.show-img {
   height: 30vh;
 }
-.btns{
+.btns {
   display: flex;
 }
-.show-card{
+.show-card {
   padding-left: 0;
   padding-right: 0;
+}
+
+/* Footer */
+.footer h6 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+.footer a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+}
+.footer a:hover {
+  text-decoration: underline;
+  color: #000;
+}
+
+/* Profile Page */
+.card {
+  border-radius: 12px !important;
+}
+.card-body h5 {
+  font-weight: 600;
+}
+.list-group-item.active {
+  background-color: #ff385c !important;
+  border-color: #ff385c !important;
+}
+.list-group-item:hover {
+  background-color: #f8f9fa;
 }

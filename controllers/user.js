@@ -47,3 +47,42 @@ module.exports.logout=(req,res,next)=>{
     res.redirect("/listings");
   })
 }
+
+
+
+module.exports.renderProfile = async (req, res) => {
+  let { id } = req.params;
+  let user = await User.findById(id);
+
+  if (!user) {
+    req.flash("error", "User not found!");
+    return res.redirect("/listings");
+  }
+
+  res.render("users/profile", { user });
+};
+
+module.exports.renderEditForm = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+    req.flash("error", "User not found!");
+    return res.redirect("/listings");
+  }
+  res.render("users/edit", { user });
+};
+
+//Update profile
+module.exports.updateProfile = async (req, res, next) => {
+  const { id } = req.params;
+  const { username, about } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    id,
+    { username, about },
+    { new: true }
+  );
+
+  req.flash("success", "Profile updated successfully!");
+  res.redirect(`/users/${id}/profile`);
+};

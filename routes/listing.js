@@ -13,6 +13,8 @@ const {isLoggedIn,isOwner,validateListing}  = require("../middleware.js");
 //-----controllers---->
 const listingController = require("../controllers/listing.js");
 
+const privacyController = require("../controllers/privacy.js");
+
 //multer---for image upload------>
 const multer  = require('multer')
 const {storage} = require("../cloudConfig.js");
@@ -32,8 +34,32 @@ router.route("/")
 // })
 
 
+
+// Airbnb host page route
+router.get("/airbnb", listingController.airbnbPage);
+
+
+
+
 //New route - "/listings/new"
 router.get("/new", isLoggedIn, listingController.renderNewForm)
+
+// router.get("/search", wrapAsync(async (req, res) => {
+//   let query = req.query.q;
+//   let allListings;
+
+//   if (!query || query.trim() === "") {
+//     allListings = await Listing.find({});
+//   } else {
+//     allListings = await Listing.find({
+//       title: { $regex: query, $options: "i" }
+//     });
+//   }
+
+//   res.render("listings/index.ejs", { allListings, query });
+// }));
+
+
 
 router.route("/:id")
 .get(wrapAsync(listingController.showListing))
@@ -64,6 +90,7 @@ router.get("/:id/edit", isLoggedIn, isOwner,  wrapAsync(listingController.render
 
 // Delete Route ->/listings/:id--router.route me set krenge uper-->
 // router.delete("/:id", isLoggedIn, isOwner,  wrapAsync(listingController.destroyListing));
+
 
 module.exports = router;
 

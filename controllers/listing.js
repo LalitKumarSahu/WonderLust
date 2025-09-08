@@ -1,10 +1,38 @@
 const Listing = require("../models/listing");
 
 
-module.exports.index = async(req,res) =>{
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", {allListings});
+// module.exports.index = async(req,res) =>{
+//   const allListings = await Listing.find({});
+//   res.render("listings/index.ejs", {allListings});
+//} // replace with chatgpt code
+module.exports.index = async (req, res) => {
+ let { q } = req.query;
+// console.log("Search query: ", q);
+
+let allListings;
+if (q && q.trim() !== "") {
+  allListings = await Listing.find({
+    title: { $regex: q, $options: "i" }
+  });
+} else {
+  allListings = await Listing.find({});
 }
+
+res.render("listings/index.ejs", { allListings, query: q || "" });
+
+};
+
+
+// foote-Airbnb host page render controller
+module.exports.airbnbPage = (req, res) => {
+  res.render("includes/airbnb");   // views/includes/Airbnb.ejs
+};
+
+
+
+
+
+
 module.exports.renderNewForm = (req,res) =>{
   console.log(req.user);
    res.render("listings/new.ejs");

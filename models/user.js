@@ -21,10 +21,23 @@ const userSchema = new Schema({
   avatar: {
     type: String,
     default: ""
-  }
+  },
+
+  // ✅ Trips (array of objects)
+trips: [
+    {
+      place: String,
+      date: Date
+    }
+  ],
+  connections: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 }, { timestamps: true });
 
 userSchema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model('User', userSchema);
-
+module.exports = mongoose.model("User", userSchema);

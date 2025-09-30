@@ -70,6 +70,9 @@
 
       const termsRouter = require("./routes/terms");
 
+      // Add this with your other route imports
+      const chatbotRouter = require("./routes/chatbot");
+
     
 
       //signup -> user.js require--->
@@ -174,6 +177,9 @@
 
       // add new Terms route
     app.use("/terms", termsRouter);
+    
+    // Add this with your other route uses
+    app.use("/api", chatbotRouter);
 
 
 
